@@ -12,12 +12,15 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import btnAction.BtnAction;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class Tela_Principal{
 
 	private JFrame frame_Principal;
 	private JTextField txt;
 	private BtnAction btnAction = new BtnAction(this);
+	private JLabel labelSimbol;
 
 	public static void main(String[] args) {
 		try {
@@ -39,8 +42,12 @@ public class Tela_Principal{
 		});
 	}
 
+	public Tela_Principal(JTextField txt) {
+		this.txt = txt;
+		initialize();
+	}
+	
 	public Tela_Principal() {
-		
 		initialize();
 	}
 
@@ -50,6 +57,7 @@ public class Tela_Principal{
 	private void initialize() {
 		
 		frame_Principal = new JFrame();
+		frame_Principal.setResizable(false);
 		frame_Principal.setForeground(new Color(183, 32, 73));
 		frame_Principal.getContentPane().setBackground(new Color(22, 25, 43));
 		frame_Principal.getContentPane().setLayout(null);
@@ -57,21 +65,25 @@ public class Tela_Principal{
 		JButton btnClean = new JButton("c");
 		btnClean.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
 		btnClean.setBounds(5, 122, 68, 67);
+		btnClean.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnClean);
 		
-		JButton btnDivision = new JButton("%");
+		JButton btnDivision = new JButton("/");
 		btnDivision.setBounds(77, 122, 68, 67);
 		btnDivision.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
+		btnDivision.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnDivision);
 		
 		JButton btnAdition = new JButton("+");
 		btnAdition.setBounds(148, 122, 68, 67);
 		btnAdition.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
+		btnAdition.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnAdition);
 		
 		JButton btnMulti = new JButton("x");
-		btnMulti.setBounds(220, 122, 55, 67);
+		btnMulti.setBounds(220, 122, 50, 67);
 		btnMulti.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
+		btnMulti.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnMulti);
 		
 		JButton btnSeven = new JButton("7");
@@ -171,21 +183,25 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(btnZero);
 		
 		JButton btnMinus = new JButton("-");
-		btnMinus.setBounds(220, 196, 55, 63);
+		btnMinus.setBounds(220, 196, 50, 63);
 		btnMinus.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
+		btnMinus.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnMinus);
 		
-		JButton btnPlus = new JButton("+");
-		btnPlus.setBounds(220, 265, 55, 67);
+		JButton btnPlus = new JButton("");
+		btnPlus.setEnabled(false);
+		btnPlus.setBounds(220, 265, 50, 67);
 		btnPlus.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
 		frame_Principal.getContentPane().add(btnPlus);
 		
 		JButton btnIqual = new JButton("=");
-		btnIqual.setBounds(220, 338, 55, 125);
+		btnIqual.setBounds(220, 338, 50, 125);
 		btnIqual.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
+		btnIqual.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnIqual);
 		
-		JLabel labelSimbol = new JLabel("");
+		labelSimbol = new JLabel("");
+		labelSimbol.setFont(new Font("Berlin Sans FB", Font.BOLD, 28));
 		labelSimbol.setForeground(new Color(255, 255, 255));
 		labelSimbol.setBounds(10, 62, 63, 49);
 		frame_Principal.getContentPane().add(labelSimbol);
@@ -196,7 +212,8 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(labelOperation);
 		
 		txt = new JTextField();
-		txt.setBorder(null);
+		txt.setEditable(false);
+		txt.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txt.setToolTipText("");
 		txt.setForeground(new Color(255, 255, 255));
 		txt.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -206,7 +223,6 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(txt);
 		txt.setColumns(11);
 		frame_Principal.setTitle("Calculadora");
-		frame_Principal.setResizable(false);
 		frame_Principal.setBounds(100, 100, 289, 500);
 		frame_Principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -228,4 +244,20 @@ public class Tela_Principal{
 		}	
 	}
 	
+	public String getTxt() {
+		return txt.getText();
+	}
+
+	public void limparTxt() {
+		this.txt.setText("");
+	}
+
+	public void setTxt(String sum) {
+		this.txt.setText(sum);
+		
+	}
+	
+	public void labelSimbolTxt(String txt) {
+		this.labelSimbol.setText(txt);
+	}
 }

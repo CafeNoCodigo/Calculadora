@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -9,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 import btnAction.BtnAction;
 import javax.swing.border.SoftBevelBorder;
@@ -21,26 +19,7 @@ public class Tela_Principal{
 	private JTextField txt;
 	private BtnAction btnAction = new BtnAction(this);
 	private JLabel labelSimbol;
-
-	public static void main(String[] args) {
-		try {
-            // Configurar o Look and Feel padrão do Windows
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Tela_Principal window = new Tela_Principal();
-					window.frame_Principal.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JLabel labelOperation;
 
 	public Tela_Principal(JTextField txt) {
 		this.txt = txt;
@@ -57,6 +36,7 @@ public class Tela_Principal{
 	private void initialize() {
 		
 		frame_Principal = new JFrame();
+		frame_Principal.setAlwaysOnTop(true);
 		frame_Principal.setResizable(false);
 		frame_Principal.setForeground(new Color(183, 32, 73));
 		frame_Principal.getContentPane().setBackground(new Color(22, 25, 43));
@@ -167,6 +147,7 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(btnCleanAll);
 		
 		JButton btnPonto = new JButton(".");
+		btnPonto.setVerticalAlignment(SwingConstants.TOP);
 		btnPonto.setForeground(new Color(183, 32, 73));
 		btnPonto.setBackground(new Color(183, 32, 73));
 		btnPonto.setBounds(77, 409, 68, 54);
@@ -206,7 +187,9 @@ public class Tela_Principal{
 		labelSimbol.setBounds(10, 62, 63, 49);
 		frame_Principal.getContentPane().add(labelSimbol);
 		
-		JLabel labelOperation = new JLabel("");
+		labelOperation = new JLabel("");
+		labelOperation.setFont(new Font("Berlin Sans FB", Font.BOLD, 25));
+		labelOperation.setHorizontalAlignment(SwingConstants.RIGHT);
 		labelOperation.setForeground(new Color(255, 255, 255));
 		labelOperation.setBounds(148, 11, 127, 25);
 		frame_Principal.getContentPane().add(labelOperation);
@@ -225,6 +208,7 @@ public class Tela_Principal{
 		frame_Principal.setTitle("Calculadora");
 		frame_Principal.setBounds(100, 100, 289, 500);
 		frame_Principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame_Principal.setVisible(true);
 	}
 	
 	/*
@@ -241,6 +225,7 @@ public class Tela_Principal{
 			return;
 		}else {
 			this.txt.setText((this.txt.getText() + btnText));
+			
 		}	
 	}
 	
@@ -259,5 +244,13 @@ public class Tela_Principal{
 	
 	public void labelSimbolTxt(String txt) {
 		this.labelSimbol.setText(txt);
+	}
+	
+	public void setLabelTxt(String txt) {
+		this.labelOperation.setText(txt);
+	}
+	
+	public String getLabelTxt() {
+		return this.labelOperation.getText();
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import btnAction.BtnAction;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.JFormattedTextField;
 
 public class Tela_Principal{
 
@@ -20,6 +21,11 @@ public class Tela_Principal{
 	private BtnAction btnAction = new BtnAction(this);
 	private JLabel labelSimbol;
 	private JLabel labelOperation;
+	private JFormattedTextField numC;
+	private JFormattedTextField numB;
+	private JFormattedTextField numA;
+	private boolean controlTamanho = true;
+	
 
 	public Tela_Principal(JTextField txt) {
 		this.txt = txt;
@@ -30,9 +36,6 @@ public class Tela_Principal{
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		
 		frame_Principal = new JFrame();
@@ -169,11 +172,11 @@ public class Tela_Principal{
 		btnMinus.addActionListener(btnAction);
 		frame_Principal.getContentPane().add(btnMinus);
 		
-		JButton btnPlus = new JButton("");
-		btnPlus.setEnabled(false);
-		btnPlus.setBounds(220, 265, 50, 67);
-		btnPlus.setFont(new Font("Tempus Sans ITC", Font.BOLD, 25));
-		frame_Principal.getContentPane().add(btnPlus);
+		JButton btnQuadra = new JButton("X²");
+		btnQuadra.setBounds(220, 265, 50, 67);
+		btnQuadra.setFont(new Font("Berlin Sans FB", Font.ITALIC, 18));
+		btnQuadra.addActionListener(btnAction);
+		frame_Principal.getContentPane().add(btnQuadra);
 		
 		JButton btnIqual = new JButton("=");
 		btnIqual.setBounds(220, 338, 50, 125);
@@ -188,10 +191,10 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(labelSimbol);
 		
 		labelOperation = new JLabel("");
-		labelOperation.setFont(new Font("Berlin Sans FB", Font.BOLD, 25));
+		labelOperation.setFont(new Font("Berlin Sans FB", Font.BOLD, 15));
 		labelOperation.setHorizontalAlignment(SwingConstants.RIGHT);
 		labelOperation.setForeground(new Color(255, 255, 255));
-		labelOperation.setBounds(148, 11, 127, 25);
+		labelOperation.setBounds(114, 11, 161, 25);
 		frame_Principal.getContentPane().add(labelOperation);
 		
 		txt = new JTextField();
@@ -205,10 +208,40 @@ public class Tela_Principal{
 		txt.setBounds(77, 62, 198, 49);
 		frame_Principal.getContentPane().add(txt);
 		txt.setColumns(11);
+		
 		frame_Principal.setTitle("Calculadora");
 		frame_Principal.setBounds(100, 100, 289, 500);
 		frame_Principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		numA = new JFormattedTextField();
+		numA.setBounds(276, 122, 89, 61);
+		
+		numB = new JFormattedTextField();
+		numB.setBounds(276, 196, 89, 61);
+		
+		numC = new JFormattedTextField();
+		numC.setBounds(276, 265, 89, 61);
+		
 		frame_Principal.setVisible(true);
+	}
+	
+	public void telaTamanho() {
+		if(controlTamanho) {
+			frame_Principal.setBounds(100, 100, 381, 500);
+			frame_Principal.getContentPane().add(numA);
+			numA.setText("Valor de a");
+			
+			frame_Principal.getContentPane().add(numB);
+			numB.setText("Valor de b");
+			
+			frame_Principal.getContentPane().add(numC);
+			numC.setText("Valor de c");
+			
+		}else {
+			frame_Principal.setBounds(100, 100, 289, 500);
+		}
+		controlTamanho = !controlTamanho;
+		
 	}
 	
 	/*
@@ -251,6 +284,10 @@ public class Tela_Principal{
 	}
 	
 	public String getLabelTxt() {
-		return this.labelOperation.getText();
+		if(this.labelOperation.getText() == null) {
+			return "";
+		}else {
+			return this.labelOperation.getText();
+		}
 	}
 }

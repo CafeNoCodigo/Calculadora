@@ -38,7 +38,10 @@ public class BtnAction implements ActionListener {
 			tela_Principal.setLabelTxt(tela_Principal.getLabelTxt() + btnDigited);
 		}else if(btnDigited.equals("=")) {
 			btnIqual(e);
-			tela_Principal.setLabelTxt(tela_Principal.getLabelTxt()  + "= " + getResult());
+			if(!(tela_Principal.getLabelTxt().isEmpty()) && (!(getResult().isEmpty()))){
+				tela_Principal.setLabelTxt(tela_Principal.getLabelTxt()  + "= " + getResult());
+			}
+			
 		}else if(btnDigited.equals("c")) {
 			if(tela_Principal.getTxt().length() > 0) {
 				tela_Principal.setTxt(tela_Principal.getTxt().substring(0, tela_Principal.getTxt().length() - 1));
@@ -48,12 +51,11 @@ public class BtnAction implements ActionListener {
 				tela_Principal.setLabelTxt("");
 			}
 		}else if(btnDigited.equals("CL")){
-			tela_Principal.setTxt("");
-			this.num1 = 0;
-			this.num2 = 0;
-			this.sinal = '\u0000';
-			tela_Principal.labelSimbolTxt("");
-			tela_Principal.setLabelTxt("");
+			cleanAll();
+			
+		}else if(btnDigited.equals("X²")) {
+			tela_Principal.telaTamanho();
+			
 		}
 	}
 	
@@ -70,6 +72,10 @@ public class BtnAction implements ActionListener {
 			sinal = btn.getText().charAt(0);
 			tela_Principal.labelSimbolTxt("");
 			tela_Principal.labelSimbolTxt(btn.getText());
+			
+			if(tela_Principal.getLabelTxt().length() > 8) {
+				tela_Principal.setLabelTxt(result);
+			}
 			
 			num1 = Double.parseDouble(tela_Principal.getTxt());
 			
@@ -124,6 +130,16 @@ public class BtnAction implements ActionListener {
 	public String setResult(String result) {
 		this.result = result;
 		return result;
+	}
+	
+	public void cleanAll() {
+		tela_Principal.setTxt("");
+		this.num1 = 0;
+		this.num2 = 0;
+		this.sinal = '\u0000';
+		tela_Principal.labelSimbolTxt("");
+		tela_Principal.setLabelTxt("");
+		this.setResult("");
 	}
 
 }

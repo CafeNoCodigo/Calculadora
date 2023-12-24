@@ -2,17 +2,21 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import btnAction.BtnAction;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.JFormattedTextField;
 
 public class Tela_Principal{
 
@@ -25,6 +29,8 @@ public class Tela_Principal{
 	private JFormattedTextField numB;
 	private JFormattedTextField numA;
 	private boolean controlTamanho = true;
+	 private int pressedX, pressedY;
+	
 	
 
 	public Tela_Principal(JTextField txt) {
@@ -39,6 +45,27 @@ public class Tela_Principal{
 	private void initialize() {
 		
 		frame_Principal = new JFrame();
+		
+		frame_Principal.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // Captura a posição inicial do mouse ao pressionar
+                pressedX = e.getX();
+                pressedY = e.getY();
+            }
+        });
+
+        frame_Principal.addMouseMotionListener(new MouseAdapter() {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // Calcula a diferença na posição do mouse e move o frame
+                int newX = frame_Principal.getX() + e.getX() - pressedX;
+                int newY = frame_Principal.getY() + e.getY() - pressedY;
+                frame_Principal.setLocation(newX, newY);
+            }
+        });
+		frame_Principal.setUndecorated(true);
 		frame_Principal.setAlwaysOnTop(true);
 		frame_Principal.setResizable(false);
 		frame_Principal.setForeground(new Color(183, 32, 73));
@@ -209,8 +236,20 @@ public class Tela_Principal{
 		frame_Principal.getContentPane().add(txt);
 		txt.setColumns(11);
 		
+		JButton btnClose = new JButton("X");
+		btnClose.setBorder(null);
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnClose.setForeground(new Color(255, 255, 255));
+		btnClose.setBackground(new Color(22, 25, 43));
+		btnClose.setBounds(0, 0, 38, 25);
+		frame_Principal.getContentPane().add(btnClose);
+		
 		frame_Principal.setTitle("Calculadora");
-		frame_Principal.setBounds(100, 100, 289, 500);
+		frame_Principal.setBounds(100, 100, 270, 465);
 		frame_Principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		numA = new JFormattedTextField();
@@ -227,7 +266,7 @@ public class Tela_Principal{
 	
 	public void telaTamanho() {
 		if(controlTamanho) {
-			frame_Principal.setBounds(100, 100, 381, 500);
+			frame_Principal.setBounds(100, 100, 367, 465);
 			frame_Principal.getContentPane().add(numA);
 			numA.setText("Valor de a");
 			
@@ -238,7 +277,7 @@ public class Tela_Principal{
 			numC.setText("Valor de c");
 			
 		}else {
-			frame_Principal.setBounds(100, 100, 289, 500);
+			frame_Principal.setBounds(100, 100, 270, 465);
 		}
 		controlTamanho = !controlTamanho;
 		

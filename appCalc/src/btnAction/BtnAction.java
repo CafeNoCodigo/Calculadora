@@ -14,6 +14,8 @@ public class BtnAction implements ActionListener {
 	private double num2;
 	private char sinal;
 	private String result;
+	//private FuncaoQuadrada funcao = new FuncaoQuadrada(tela_Principal);
+	//private Tela_Principal tela;
 	
 	/*Construtor principal passando o parámetro tela_principal
 	 * desta forma ao chamar a acção somente passar o "this" referenciando
@@ -38,6 +40,7 @@ public class BtnAction implements ActionListener {
 			tela_Principal.setLabelTxt(tela_Principal.getLabelTxt() + btnDigited);
 		}else if(btnDigited.equals("=")) {
 			btnIqual(e);
+			//funcaoQuadrada();
 			if(!(tela_Principal.getLabelTxt().isEmpty()) && (!(getResult().isEmpty()))){
 				tela_Principal.setLabelTxt(tela_Principal.getLabelTxt()  + "= " + getResult());
 			}
@@ -56,6 +59,8 @@ public class BtnAction implements ActionListener {
 		}else if(btnDigited.equals("X²")) {
 			tela_Principal.telaTamanho();
 			
+		}else if(btnDigited.equals("Raízes")) {
+			funcaoQuadrada();
 		}
 	}
 	
@@ -103,7 +108,8 @@ public class BtnAction implements ActionListener {
 				tela_Principal.setTxt(this.mult(this.num1, num2));
 				break;
 			}
-		}	
+		}
+		
 	}
 	
 	public String sum(double num1, double num2) {
@@ -140,6 +146,16 @@ public class BtnAction implements ActionListener {
 		tela_Principal.labelSimbolTxt("");
 		tela_Principal.setLabelTxt("");
 		this.setResult("");
+	}
+	
+	public void funcaoQuadrada() {
+		long numA = Long.parseLong(tela_Principal.numA.getText());
+		long numB = Long.parseLong(tela_Principal.numB.getText());
+		long numC = Long.parseLong(tela_Principal.numC.getText());
+		
+		long delta = Math.multiplyExact(numB, numB) - 4 * Math.multiplyExact(numA, numC);
+		
+		tela_Principal.setTxt(String.valueOf(delta));
 	}
 
 }

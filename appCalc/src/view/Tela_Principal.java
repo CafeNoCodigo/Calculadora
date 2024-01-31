@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,11 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
@@ -25,13 +26,31 @@ public class Tela_Principal{
 	private BtnAction btnAction = new BtnAction(this);
 	private JLabel labelSimbol;
 	private JLabel labelOperation;
-	private JFormattedTextField numC;
-	private JFormattedTextField numB;
-	private JFormattedTextField numA;
+	public JTextField numC;
+	public JTextField numB;
+	public JTextField numA;
 	private boolean controlTamanho = true;
-	 private int pressedX, pressedY;
+	private int pressedX, pressedY;
+	private  int newX, newY;
 	
-	
+	public static void main(String[] args) {
+		try {
+            // Configurar o Look and Feel padrão do Windows
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new Tela_Principal();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	public Tela_Principal(JTextField txt) {
 		this.txt = txt;
@@ -60,13 +79,14 @@ public class Tela_Principal{
             @Override
             public void mouseDragged(MouseEvent e) {
                 // Calcula a diferença na posição do mouse e move o frame
-                int newX = frame_Principal.getX() + e.getX() - pressedX;
-                int newY = frame_Principal.getY() + e.getY() - pressedY;
+                newX = frame_Principal.getX() + e.getX() - pressedX;
+                newY = frame_Principal.getY() + e.getY() - pressedY;
                 frame_Principal.setLocation(newX, newY);
+            
             }
         });
 		frame_Principal.setUndecorated(true);
-		frame_Principal.setAlwaysOnTop(true);
+		frame_Principal.setAlwaysOnTop(false);
 		frame_Principal.setResizable(false);
 		frame_Principal.setForeground(new Color(183, 32, 73));
 		frame_Principal.getContentPane().setBackground(new Color(22, 25, 43));
@@ -221,7 +241,7 @@ public class Tela_Principal{
 		labelOperation.setFont(new Font("Berlin Sans FB", Font.BOLD, 15));
 		labelOperation.setHorizontalAlignment(SwingConstants.RIGHT);
 		labelOperation.setForeground(new Color(255, 255, 255));
-		labelOperation.setBounds(114, 11, 161, 25);
+		labelOperation.setBounds(114, 11, 146, 25);
 		frame_Principal.getContentPane().add(labelOperation);
 		
 		txt = new JTextField();
@@ -232,7 +252,7 @@ public class Tela_Principal{
 		txt.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt.setFont(new Font("Berlin Sans FB", Font.BOLD, 25));
 		txt.setBackground(new Color(22, 25, 43));
-		txt.setBounds(77, 62, 198, 49);
+		txt.setBounds(77, 62, 183, 49);
 		frame_Principal.getContentPane().add(txt);
 		txt.setColumns(11);
 		
@@ -245,28 +265,87 @@ public class Tela_Principal{
 		});
 		btnClose.setForeground(new Color(255, 255, 255));
 		btnClose.setBackground(new Color(22, 25, 43));
-		btnClose.setBounds(0, 0, 38, 25);
+		btnClose.setBounds(5, 11, 38, 25);
 		frame_Principal.getContentPane().add(btnClose);
 		
 		frame_Principal.setTitle("Calculadora");
-		frame_Principal.setBounds(100, 100, 270, 465);
+		//frame_Principal.setBounds(100, 100, 270, 465);
 		frame_Principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		numA = new JFormattedTextField();
+		numA = new JTextField();
+		numA.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if((numA.getText().equals("Valor de a")) || !(numA.getText().equals("[0-9]"))) {
+					numA.setText("");
+				}
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(numA.getText().equals("") || (numA.getText().equals("[0-9]"))) {
+					numA.setText("Valor de a");
+				}
+			}
+		});
 		numA.setBounds(276, 122, 89, 61);
 		
-		numB = new JFormattedTextField();
+		numB = new JTextField();
 		numB.setBounds(276, 196, 89, 61);
 		
-		numC = new JFormattedTextField();
+		numB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if((numB.getText().equals("Valor de b"))) {
+					numB.setText("");
+				}
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(numB.getText().equals("") || (numB.getText().equals("[0-9]"))) {
+					numB.setText("Valor de b");
+				}
+			}
+		});
+		
+		numC = new JTextField();
 		numC.setBounds(276, 265, 89, 61);
 		
+		numC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if((numC.getText().equals("Valor de c"))) {
+					numC.setText("");
+				}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(numC.getText().equals("") || (numC.getText() == "[0-9]")) {
+					numC.setText("Valor de c");
+				}
+			}
+		});
+		
+		frame_Principal.setBounds(100, 100, 367, 465);
+		frame_Principal.getContentPane().add(numA);
+		numA.setText("Valor de a");
+		
+		frame_Principal.getContentPane().add(numB);
+		numB.setText("Valor de b");
+		
+		frame_Principal.getContentPane().add(numC);
+		numC.setText("Valor de c");
+		
+		JButton btnFuncaoResult = new JButton("Raízes");
+		btnFuncaoResult.addActionListener(btnAction);
+		btnFuncaoResult.setBounds(276, 338, 89, 67);
+		frame_Principal.getContentPane().add(btnFuncaoResult);
 		frame_Principal.setVisible(true);
 	}
 	
 	public void telaTamanho() {
 		if(controlTamanho) {
-			frame_Principal.setBounds(100, 100, 367, 465);
+			frame_Principal.setBounds(newX, newY, 367, 465);
 			frame_Principal.getContentPane().add(numA);
 			numA.setText("Valor de a");
 			
@@ -277,7 +356,7 @@ public class Tela_Principal{
 			numC.setText("Valor de c");
 			
 		}else {
-			frame_Principal.setBounds(100, 100, 270, 465);
+			frame_Principal.setBounds(newX, newY, 270, 465);
 		}
 		controlTamanho = !controlTamanho;
 		
@@ -328,5 +407,29 @@ public class Tela_Principal{
 		}else {
 			return this.labelOperation.getText();
 		}
+	}
+
+	public String getNumC() {
+		return this.numC.getText();
+	}
+
+	public void setNumC(String numC) {
+		this.numC.setText(numC);
+	}
+
+	public String getNumB() {
+		return this.numB.getText();
+	}
+
+	public void setNumB(String numB) {
+		this.numB.setText(numB);
+	}
+
+	public String getNumA() {
+		return this.numA.getText();
+	}
+
+	public void setNumA(String numA) {
+		this.numA.setText(numA);
 	}
 }
